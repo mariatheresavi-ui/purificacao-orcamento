@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#171329">
-<title>Budget Ninja | Corte os excessos!</title>
+<title>Purificação Anual do Orçamento | Protocolo FIN-001</title>
 <style>
 :root{--bg:#030611;--neon:#ff2738;--purple:#071a66;--pink:#ff2738;--white:#f3f5ff}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--white);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;touch-action:none}
@@ -36,22 +36,41 @@ button:active{transform:translateY(3px);box-shadow:0 4px 0 #8b0718}
 .brand p{letter-spacing:.12em}
 .ap-sen{position:fixed;top:14px;left:50%;transform:translateX(-50%);height:31px;width:auto;max-width:90px;object-fit:contain;opacity:.95;pointer-events:none;z-index:2}
 @media(max-height:650px){.ap-sen{top:7px;height:22px}}
+
+.halloween-logo{position:fixed;top:12px;right:14px;width:clamp(100px,15vw,190px);max-height:48px;object-fit:contain;filter:drop-shadow(0 0 8px #00aaff88);z-index:2;pointer-events:none}
+.brand{top:72px}
+.brand h1{font-size:clamp(19px,3.8vw,34px)}
+.brand p{font-size:clamp(9px,1.6vw,12px);max-width:90%;margin:4px auto}
+.brand-logos{display:flex;justify-content:center;align-items:center;gap:20px;margin:0 auto 12px}
+.brand-logos img{height:32px;max-width:135px;object-fit:contain}
+.name-row{display:flex;gap:8px;margin:12px 0}
+.name-row input{flex:1;min-width:0;border-radius:12px;border:1px solid #ff273866;background:#030611;color:white;padding:12px 13px;font-size:16px;outline:none}
+.name-row input:focus{border-color:#00cfff;box-shadow:0 0 0 2px #00cfff33}
+.leaderboard{margin-top:14px;text-align:left;background:#02040c99;border:1px solid #ff273844;border-radius:14px;padding:12px}
+.leaderboard h3{font-size:13px;letter-spacing:.12em;color:#ff4a58;margin:0 0 8px}
+.rank-row{display:grid;grid-template-columns:28px 1fr auto;gap:8px;padding:5px 2px;border-bottom:1px solid #ffffff12;font-size:12px}
+.rank-row:last-child{border-bottom:0}
+.rank-row .pts{color:#b9f5ff;font-weight:900}
+.mask-badge{position:fixed;left:14px;top:14px;width:40px;height:40px;border-radius:50%;z-index:2;pointer-events:none;filter:drop-shadow(0 0 8px #ff2738)}
+@media(max-width:560px){.halloween-logo{top:57px;right:10px;width:110px;max-height:28px}.ap-sen{left:16px;transform:none;top:13px;height:25px;max-width:70px}.brand{top:95px}.brand-logos img{height:25px;max-width:100px}.panel{max-height:92dvh;overflow:auto}.rules{gap:6px}.rule{padding:8px;font-size:12px}}
+@media(max-height:650px){.brand{top:60px}.halloween-logo{top:7px}.ap-sen{top:7px}.brand-logos{margin-bottom:5px}.brand-logos img{height:23px}}
 </style>
 </head>
 <body>
 <canvas id="game" aria-label="Jogo Budget Ninja"></canvas>
-<img class="ap-sen" src="apsen-logo.png" alt="Apsen"><div class="scanlines"></div>\n<div class="hud">
+<img class="ap-sen" src="apsen-logo.png" alt="Apsen"><img class="halloween-logo" src="halloween-logo.png" alt="RE:lloween.ai"><div class="scanlines"></div>
+<div class="hud">
  <div class="pill"><div class="label">PONTOS</div><div class="value neon" id="score">000</div></div>
  <div class="pill"><div class="label">TEMPO</div><div class="value" id="time">30</div></div>
  <div class="pill"><div class="label">VIDAS</div><div class="value" id="lives">♥ ♥ ♥</div></div>
 </div>
 <div class="brand"><h1>ISSO NÃO É UM TESTE.</h1><p>SISTEMA DE TRANSMISSÃO DE EMERGÊNCIA • PROTOCOLO FIN-001</p></div>
 <div id="toast"></div>
-<div class="footer">ESCANEIE. ACESSE. CORTE. • Arraste para purificar • Não corte o orçamento protegido</div>
+<div class="footer">ESCANEIE. ACESSE. CORTE. • PROTOCOLO FIN-001 • Não corte o orçamento protegido</div>
 
 <div class="overlay" id="start">
  <div class="panel">
-  <div class="eyebrow">⚡ SISTEMA DE TRANSMISSÃO DE EMERGÊNCIA ⚡</div>
+  <div class="brand-logos"><img src="halloween-logo.png" alt="RE:lloween.ai"><img src="apsen-logo.png" alt="Apsen"></div><div class="eyebrow">⚡ SISTEMA DE TRANSMISSÃO DE EMERGÊNCIA ⚡</div>
   <h2><span style="color:#ff2738">PURIFICAÇÃO</span><br>DO ORÇAMENTO</h2>
   <p>O sistema identificou desperdícios no orçamento. Inicie a purificação anual: corte gastos desnecessários, processos ineficientes e excessos.</p>
   <div class="rules">
@@ -61,7 +80,7 @@ button:active{transform:translateY(3px);box-shadow:0 4px 0 #8b0718}
    <div class="rule">🛡️ <b style="color:#8bcBff">Orçamento protegido</b><small>Não corte! Perde 1 vida</small></div>
   </div>
   <button id="play">INICIAR A PURIFICAÇÃO</button>
-  <p style="font-size:11px;margin:15px 0 0">PROTOCOLO FIN-001 • 30 segundos • Mouse ou toque</p>
+  <div class="leaderboard"><h3>🏆 TOP 5 DO EXPURGO</h3><div id="startRanking"></div></div><p style="font-size:11px;margin:15px 0 0">PROTOCOLO FIN-001 • 30 segundos • Mouse ou toque</p>
  </div>
 </div>
 <div class="overlay hidden" id="end">
@@ -70,7 +89,9 @@ button:active{transform:translateY(3px);box-shadow:0 4px 0 #8b0718}
   <h2 id="endTitle">Mandou bem!</h2>
   <p id="endMessage">O orçamento agradece.</p>
   <div class="rule" style="text-align:center;margin:18px 0"><div class="label">PONTUAÇÃO FINAL</div><div class="value neon" id="finalScore" style="font-size:42px">000</div></div>
-  <button id="again">JOGAR DE NOVO</button>
+  <div class="name-row"><input id="playerName" maxlength="18" autocomplete="nickname" placeholder="Digite apenas seu nome" aria-label="Seu nome"><button id="saveScore" style="width:auto;white-space:nowrap;padding:12px 14px">SALVAR</button></div>
+  <div class="leaderboard"><h3>🏆 RANKING DO EXPURGO</h3><div id="rankingList"></div><p style="font-size:10px;margin:8px 0 0">Ranking salvo neste navegador/dispositivo.</p></div>
+  <button id="again" style="margin-top:12px">JOGAR DE NOVO</button>
   <button class="secondary" id="share">COPIAR RESULTADO</button>
  </div>
 </div>
@@ -100,6 +121,23 @@ function cut(item){
  updateHud();if(lives<=0)finish();
 }
 function updateHud(){scoreEl.textContent=String(score).padStart(3,'0');timeEl.textContent=Math.max(0,Math.ceil(timeLeft));livesEl.textContent='♥ '.repeat(Math.max(0,lives)).trim()||'—'}
+const RANK_KEY='fin001-purificacao-ranking-v1';
+function getRanking(){try{return JSON.parse(localStorage.getItem(RANK_KEY)||'[]')}catch(e){return []}}
+function renderRanking(targetId,limit=10){
+ const el=document.getElementById(targetId);if(!el)return;
+ const list=getRanking().sort((a,b)=>b.score-a.score).slice(0,limit);
+ el.innerHTML=list.length?list.map((r,i)=>`<div class="rank-row"><span>${i+1}.</span><span>${escapeHtml(r.name)}</span><span class="pts">${r.score} pts</span></div>`).join(''):'<div style="font-size:12px;color:#b8aecb">Ainda não há pontuações. Seja o primeiro!</div>';
+}
+function escapeHtml(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function savePlayerScore(){
+ const input=document.getElementById('playerName'),name=input.value.trim().replace(/\s+/g,' ').slice(0,18);
+ if(!name){input.focus();input.placeholder='Digite seu nome primeiro';return}
+ const ranking=getRanking();ranking.push({name,score,at:new Date().toISOString()});
+ ranking.sort((a,b)=>b.score-a.score);ranking.splice(10);
+ try{localStorage.setItem(RANK_KEY,JSON.stringify(ranking));announce('PONTUAÇÃO REGISTRADA!');input.value='';document.getElementById('saveScore').textContent='SALVO ✓';renderRanking('rankingList');renderRanking('startRanking',5)}
+ catch(e){announce('NÃO FOI POSSÍVEL SALVAR')}
+}
+
 function drawBackground(t){
  ctx.clearRect(0,0,W,H);
  const g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#25183e');g.addColorStop(1,'#100d1c');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
@@ -112,6 +150,19 @@ function drawBackground(t){
  ctx.save();ctx.globalAlpha=.07;ctx.font='bold 70px system-ui';ctx.fillStyle='#ffffff';
  ctx.fillText('$',W*.12,H*.43);ctx.fillText('↗',W*.78,H*.58);ctx.fillText('%',W*.15,H*.72);ctx.restore();
 }
+function drawPurgeMask(x,y,r,t){
+ // Máscara original de LED, inspirada na estética de terror tecnológico, sem reproduzir personagem específico.
+ ctx.save();ctx.translate(x,y);ctx.scale(r/30,r/30);
+ const pulse=.72+.28*Math.sin(t*.012);
+ ctx.shadowColor='#ff183b';ctx.shadowBlur=22*pulse;
+ ctx.fillStyle='#080912';ctx.strokeStyle='#ff2548';ctx.lineWidth=2.2;
+ ctx.beginPath();ctx.moveTo(-23,-20);ctx.quadraticCurveTo(0,-34,23,-20);ctx.lineTo(26,3);ctx.quadraticCurveTo(20,25,0,29);ctx.quadraticCurveTo(-20,25,-26,3);ctx.closePath();ctx.fill();ctx.stroke();
+ ctx.shadowColor='#00d9ff';ctx.shadowBlur=12*pulse;ctx.strokeStyle='#00d9ff';ctx.lineWidth=2.5;
+ ctx.beginPath();ctx.moveTo(-19,-8);ctx.lineTo(-5,-3);ctx.lineTo(-12,5);ctx.moveTo(19,-8);ctx.lineTo(5,-3);ctx.lineTo(12,5);ctx.stroke();
+ ctx.shadowColor='#ff2548';ctx.shadowBlur=14*pulse;ctx.strokeStyle='#ff2548';ctx.lineWidth=2.3;
+ ctx.beginPath();ctx.moveTo(-13,12);ctx.lineTo(-8,17);ctx.lineTo(-3,12);ctx.lineTo(2,17);ctx.lineTo(7,12);ctx.lineTo(12,17);ctx.stroke();
+ ctx.restore();
+}
 function drawItem(o,t){
  ctx.save();ctx.translate(o.x,o.y);ctx.rotate(o.rot);
  const c=COLORS[o.type];ctx.shadowColor=c;ctx.shadowBlur=18;
@@ -119,8 +170,7 @@ function drawItem(o,t){
  ctx.strokeStyle=c;ctx.lineWidth=2.5;
  ctx.beginPath();ctx.arc(0,0,o.r,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.shadowBlur=0;
  // icon emoji renders as colorful, distinctive flying targets
- ctx.font=`${o.r*1.13}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';
- ctx.fillText(o.type==='expense'?'💸':o.type==='over'?'📈':o.type==='monster'?'👹':'🛡️',0,-2);
+ if(o.type==='monster'){drawPurgeMask(0,-2,o.r,t)}else{ctx.font=`${o.r*1.13}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(o.type==='expense'?'💸':o.type==='over'?'📈':'🛡️',0,-2)}
  ctx.fillStyle=c;ctx.font='800 9px system-ui';ctx.fillText(o.type==='expense'?'+10':o.type==='over'?'+20':o.type==='monster'?'+30':'NÃO!',0,o.r+12);
  ctx.restore();
 }
@@ -148,10 +198,10 @@ canvas.addEventListener('pointermove',pointerMove);
 function pointerUp(){pointerDown=false;lastPoint=null}
 canvas.addEventListener('pointerup',pointerUp);canvas.addEventListener('pointercancel',pointerUp);canvas.addEventListener('pointerleave',pointerUp);
 function startGame(){score=0;lives=3;timeLeft=30;elapsed=0;spawnClock=0;items=[];particles=[];slashes=[];running=true;last=0;startEl.classList.add('hidden');endEl.classList.add('hidden');updateHud();if(!raf)raf=requestAnimationFrame(loop)}
-function finish(){if(!running)return;running=false;updateHud();endEl.classList.remove('hidden');document.getElementById('finalScore').textContent=score;let title=score>=250?'ORÇAMENTO PURIFICADO!':score>=130?'CONTROLADOR DO EXPURGO!':'TREINO CONCLUÍDO!';document.getElementById('endTitle').textContent=title;document.getElementById('endMessage').textContent=score>=250?'Purificação concluída. O sistema financeiro renasceu!':score>=130?'Protocolo parcialmente concluído. Mais uma rodada de purificação?':'Ainda há excessos no sistema. Reinicie o protocolo e tente novamente.';}
-document.getElementById('play').addEventListener('click',startGame);document.getElementById('again').addEventListener('click',startGame);
+function finish(){if(!running)return;running=false;updateHud();renderRanking('rankingList');renderRanking('startRanking',5);document.getElementById('saveScore').textContent='SALVAR';endEl.classList.remove('hidden');document.getElementById('finalScore').textContent=score;let title=score>=250?'ORÇAMENTO PURIFICADO!':score>=130?'CONTROLADOR DO EXPURGO!':'TREINO CONCLUÍDO!';document.getElementById('endTitle').textContent=title;document.getElementById('endMessage').textContent=score>=250?'Purificação concluída. O sistema financeiro renasceu!':score>=130?'Protocolo parcialmente concluído. Mais uma rodada de purificação?':'Ainda há excessos no sistema. Reinicie o protocolo e tente novamente.';}
+document.getElementById('saveScore').addEventListener('click',savePlayerScore);document.getElementById('playerName').addEventListener('keydown',e=>{if(e.key==='Enter')savePlayerScore()});document.getElementById('play').addEventListener('click',startGame);document.getElementById('again').addEventListener('click',startGame);
 document.getElementById('share').addEventListener('click',async()=>{const txt=`Protocolo FIN-001: fiz ${score} pontos na Purificação Anual do Orçamento. ESCANEIE. ACESSE. CORTE.`;try{await navigator.clipboard.writeText(txt);document.getElementById('share').textContent='RESULTADO COPIADO!'}catch(e){document.getElementById('share').textContent=txt}});
-updateHud();draw(0);raf=requestAnimationFrame(loop);
+updateHud();renderRanking('startRanking',5);draw(0);raf=requestAnimationFrame(loop);
 })();
 </script>
 </body>
